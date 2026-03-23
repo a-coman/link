@@ -1,10 +1,10 @@
 ---
 /**
- * LinktreeTemplate — the main template that renders a profile page from YAML data.
+ * LinkTemplate — the main template that renders a profile page from YAML data.
  * Orchestrates ProfileRow, LinkList, and text/divider blocks.
  */
-import ProfileRow from './ProfileRow.astro';
-import LinkList from './LinkList.astro';
+import ProfileRow from "./ProfileRow.astro";
+import LinkList from "./LinkList.astro";
 
 interface ThemeConfig {
   background?: string;
@@ -12,12 +12,12 @@ interface ThemeConfig {
   lightBackground?: string;
   lightTextColor?: string;
   accentColor?: string;
-  buttonStyle?: 'sharp' | 'rounded' | 'pill';
+  buttonStyle?: "sharp" | "rounded" | "pill";
   fontFamily?: string;
 }
 
 interface Block {
-  type: 'profiles' | 'links' | 'text' | 'divider';
+  type: "profiles" | "links" | "text" | "divider";
   [key: string]: unknown;
 }
 
@@ -28,20 +28,15 @@ interface Props {
   layout: Block[];
 }
 
-const {
-  name,
-  description,
-  theme,
-  layout,
-} = Astro.props;
+const { name, description, theme, layout } = Astro.props;
 
 const {
-  background = '#0f0f0f',
-  textColor = '#eeeeee',
-  lightBackground = '#FAFAFA',
-  lightTextColor = '#111111',
-  accentColor = '#ffffff',
-  buttonStyle = 'sharp',
+  background = "#0f0f0f",
+  textColor = "#eeeeee",
+  lightBackground = "#FAFAFA",
+  lightTextColor = "#111111",
+  accentColor = "#ffffff",
+  buttonStyle = "sharp",
   fontFamily,
 } = theme ?? {};
 
@@ -52,52 +47,51 @@ const cssVars = [
   `--light-text: ${lightTextColor}`,
   `--accent: ${accentColor}`,
   `--font: ${fontFamily ?? "'Inter', system-ui, sans-serif"}`,
-].join('; ');
+].join("; ");
 ---
 
 <div class="lt-root" style={cssVars}>
   <div class="lt-inner container-box container-pad">
-    {layout.map((block) => {
-      if (block.type === 'profiles') {
-        const b = block as any;
-        return (
-          <section class="lt-block lt-block--profiles">
-            <ProfileRow
-              profiles={b.profiles}
-              columns={b.columns}
-              buttonStyle={buttonStyle}
-            />
-          </section>
-        );
-      }
+    {
+      layout.map((block) => {
+        if (block.type === "profiles") {
+          const b = block as any;
+          return (
+            <section class="lt-block lt-block--profiles">
+              <ProfileRow
+                profiles={b.profiles}
+                columns={b.columns}
+                buttonStyle={buttonStyle}
+              />
+            </section>
+          );
+        }
 
-      if (block.type === 'links') {
-        const b = block as any;
-        return (
-          <section class="lt-block lt-block--links">
-            <LinkList
-              links={b.links}
-              buttonStyle={buttonStyle}
-            />
-          </section>
-        );
-      }
+        if (block.type === "links") {
+          const b = block as any;
+          return (
+            <section class="lt-block lt-block--links">
+              <LinkList links={b.links} buttonStyle={buttonStyle} />
+            </section>
+          );
+        }
 
-      if (block.type === 'text') {
-        const b = block as any;
-        return (
-          <div class="lt-block lt-section-label">
-            <span>{b.content}</span>
-          </div>
-        );
-      }
+        if (block.type === "text") {
+          const b = block as any;
+          return (
+            <div class="lt-block lt-section-label">
+              <span>{b.content}</span>
+            </div>
+          );
+        }
 
-      if (block.type === 'divider') {
-        return <hr class="lt-divider" />;
-      }
+        if (block.type === "divider") {
+          return <hr class="lt-divider" />;
+        }
 
-      return null;
-    })}
+        return null;
+      })
+    }
   </div>
 </div>
 
@@ -110,7 +104,9 @@ const cssVars = [
     color: var(--text);
     font-family: var(--font);
     min-height: 100%;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
   }
 
   :global(html[data-theme="light"]) .lt-root {
@@ -155,7 +151,7 @@ const cssVars = [
   }
 
   .lt-section-label::after {
-    content: '';
+    content: "";
     flex: 1;
     height: 1px;
     background: currentColor;
