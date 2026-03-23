@@ -1,0 +1,84 @@
+---
+/**
+ * ThemeToggle.astro
+ * A minimal, fixed-position toggle to switch between dark and light modes.
+ */
+import { Icon } from 'astro-icon/components';
+---
+
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+  <Icon name="ph:sun-fill" class="icon-sun" />
+  <Icon name="ph:moon-fill" class="icon-moon" />
+</button>
+
+<style>
+  .theme-toggle {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--card-bg, rgba(255, 255, 255, 0.1));
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.2));
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease;
+    z-index: 50;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .theme-toggle:hover {
+    transform: scale(1.05);
+    background: var(--card-hover-bg, rgba(255, 255, 255, 0.15));
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.95);
+  }
+
+  .theme-toggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    position: absolute;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  /* Default (Dark Mode) - Show Sun, Hide Moon */
+  :global(html:not([data-theme="light"])) .icon-moon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+  }
+  
+  :global(html:not([data-theme="light"])) .icon-sun {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+
+  /* Light Mode - Show Moon, Hide Sun */
+  :global(html[data-theme="light"]) .icon-sun {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+  
+  :global(html[data-theme="light"]) .icon-moon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+</style>
+
+<script is:inline>
+  const toggleBtn = document.getElementById('theme-toggle');
+  
+  toggleBtn?.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const newTheme = isLight ? 'dark' : 'light';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+</script>

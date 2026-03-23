@@ -1,0 +1,49 @@
+---
+/**
+ * SocialIcon — renders a single social platform icon using astro-icon.
+ * Icon ID is resolved from a known alias ("twitter") or passed directly ("ph:x-logo").
+ */
+import { Icon } from "astro-icon/components";
+import { resolveIcon } from "../utils/icons";
+
+interface Props {
+  platform: string;
+  url: string;
+  size?: number;
+}
+
+const { platform, url, size = 20 } = Astro.props;
+const { icon, label } = resolveIcon(platform);
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={label}
+  class="social-icon"
+  title={label}
+>
+  <Icon name={icon} width={size} height={size} aria-hidden="true" />
+</a>
+
+<style>
+  .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    color: inherit;
+    opacity: 0.6;
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+    text-decoration: none;
+  }
+  .social-icon:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+</style>

@@ -1,0 +1,147 @@
+---
+/**
+ * LinkList — renders a vertical list of styled link buttons.
+ * Icons resolved via astro-icon (Phosphor set).
+ */
+import { Icon } from 'astro-icon/components';
+import { resolveIcon } from '../utils/icons';
+
+interface LinkItem {
+  title: string;
+  url: string;
+  description?: string;
+  icon?: string;
+  newTab?: boolean;
+}
+
+interface Props {
+  links: LinkItem[];
+  buttonStyle?: 'sharp' | 'rounded' | 'pill';
+}
+
+const { links, buttonStyle = 'sharp' } = Astro.props;
+---
+
+<ul class={`link-list btn-${buttonStyle}`} role="list">
+  {links.map((link) => {
+    const resolved = link.icon ? resolveIcon(link.icon) : null;
+    const target = link.newTab !== false ? '_blank' : '_self';
+    const rel    = link.newTab !== false ? 'noopener noreferrer' : undefined;
+    return (
+      <li>
+        <a href={link.url} target={target} rel={rel} class="link-btn card-interactive">
+          {resolved && (
+            <span class="link-icon" aria-hidden="true">
+              <Icon name={resolved.icon} width={18} height={18} />
+            </span>
+          )}
+          <span class="link-copy">
+            <span class="link-title">{link.title}</span>
+            {link.description && (
+              <span class="link-desc text-sub">{link.description}</span>
+            )}
+          </span>
+          <span class="link-arrow card-arrow" aria-hidden="true">
+            <Icon name="ph:arrow-right" width={13} height={13} />
+          </span>
+        </a>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .link-list li {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .link-btn {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.85rem 1.1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .link-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  .link-btn:hover::before { opacity: 1; }
+
+  /* Border-radius variants */
+  .btn-sharp   .link-btn { border-radius: 0; }
+  .btn-rounded .link-btn { border-radius: 8px; }
+  .btn-pill    .link-btn { border-radius: 9999px; }
+
+  .link-icon {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+
+  .link-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .link-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .link-desc {
+    /* managed by global text-sub */
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+  }
+  /* transform and hover states managed by card-interactive + card-arrow */
+
+  @media (max-width: 420px) {
+    .link-btn {
+      padding: 0.8rem 0.95rem;
+      gap: 0.55rem;
+    }
+
+    .link-title {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

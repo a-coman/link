@@ -1,134 +1,3 @@
-# Link
-
-Link is a LinkTree alternative built with Astro.
-
-It supports structured YAML profiles for fast scaffolding, with fully handcrafted Astro components.
-
-## Getting Started
-
-### Prerequisites
-- Node.js (v22+)
-- npm
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/a-coman/link.git
-   cd link
-   ```
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-### Running Locally
-
-To start the local development server:
-```bash
-npm run dev
-```
-Open [http://localhost:4321](http://localhost:4321) in your browser. The application will auto-generate an index directory displaying all available profile endpoints.
-
-## Usage & Customization
-
-Link supports two straightforward systems for composing pages:
-
-### 1. YAML Profiles
-Create a new `.yaml` file inside the `src/profiles/` directory.
-For example, `src/profiles/alberto.yaml`:
-
-<details>
-<summary>Click to expand code block:</summary>
-
-```yaml
-name: "The Founders"
-description: "Design & Engineering"
-theme:
-  background: "#0f0f0f"
-  textColor: "#eeeeee"
-  accentColor: "#ffffff"
-  buttonStyle: "sharp"
-
-layout:
-  - type: "profiles"
-    columns: 2
-    profiles: # Link supports multiple column layouts
-      - name: "Jane" 
-        description: "Product Designer"
-        avatar: "/avatars/jane.jpg"
-        url: "https://jane.design"
-        socials:
-          - platform: "twitter"
-            url: "https://twitter.com/jane"
-          - platform: "dribbble"
-            url: "https://dribbble.com/jane"
-
-      - name: "Albert"
-        description: "Software Engineer"
-        avatar: "/avatars/albert.jpg"
-        url: "https://albert.dev"
-        socials:
-          - platform: "github"
-            url: "https://github.com/albert"
-          - platform: "linkedin"
-            url: "https://linkedin.com/in/albert"
-
-  - type: "links"
-    links:
-      - title: "Visit our Studio Website"
-        url: "https://studioduo.com"
-        icon: "ph:globe"
-      - title: "Book us for a project"
-        url: "https://cal.com/studioduo"
-        icon: "ph:calendar-blank"
-      - title: "Read our newsletter"
-        url: "https://studioduo.substack.com"
-        icon: "ph:envelope-simple"
-
-  - type: "text"
-    content: "Jane's Links"
-
-  - type: "links"
-    links:
-      - title: "Jane's Dribbble Portfolio"
-        url: "https://dribbble.com/jane"
-        icon: "ph:palette"
-      - title: "Jane's Design Course"
-        url: "https://course.jane.design"
-        icon: "ph:graduation-cap"
-
-  - type: "text"
-    content: "Albert's Links"
-
-  - type: "links"
-    links:
-      - title: "Albert's GitHub"
-        url: "https://github.com/albert"
-        icon: "ph:github-logo"
-      - title: "Albert's OSS Project"
-        url: "https://github.com/albert/my-project"
-        icon: "ph:code"
-```
-
-</details>
-
-The application dynamically routes this to `localhost:4321/alberto`.
-
-### 2. Custom Astro Pages
-If you need absolute structural control, design a completely bespoke interface natively.
-
-Create a `.astro` file inside `src/pages/` (e.g., `src/pages/juan.astro`).
-1. Import the `<BaseLayout>` component globally wrapper.
-2. Define and pass `title` and `description` to `<BaseLayout>`
-
-For example, `src/pages/juan.astro`:
-
-<details>
-<summary>Click to expand code block:</summary>
-
-```js
----
 ---
 /**
  * juan.astro : A FULLY CUSTOM Linktree page.
@@ -214,10 +83,6 @@ const description = "Creative Director & Filmmaker";
         <span class="link-ext-icon" aria-hidden="true"><Icon name="ph:arrow-up-right" width={16} height={16} /></span>
       </a>
     </section>
-
-    <footer class="page-footer">
-      <a href="/" class="back-link">← All pages</a>
-    </footer>
   </div>
 </BaseLayout>
 
@@ -248,12 +113,18 @@ const description = "Creative Director & Filmmaker";
     align-items: center;
     justify-content: center;
   }
+  :global(html[data-theme="light"]) .avatar-ring {
+    border-color: rgba(0, 0, 0, 0.15);
+  }
 
   .avatar-initials {
     font-size: 1.25rem;
     font-weight: 700;
     letter-spacing: -0.03em;
     color: rgba(240, 237, 230, 0.7);
+  }
+  :global(html[data-theme="light"]) .avatar-initials {
+    color: rgba(0, 0, 0, 0.7);
   }
 
   .hero-text {
@@ -293,16 +164,26 @@ const description = "Creative Director & Filmmaker";
     transition: opacity 0.18s, border-color 0.18s, transform 0.18s;
     text-decoration: none;
   }
+  :global(html[data-theme="light"]) .social-btn {
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+  
   .social-btn:hover {
     opacity: 1;
     border-color: rgba(240, 237, 230, 0.35);
     transform: translateY(-2px);
+  }
+  :global(html[data-theme="light"]) .social-btn:hover {
+    border-color: rgba(0, 0, 0, 0.35);
   }
 
   /* ── Rule ─────────────────────────────────────── */
   .rule {
     border-top: 1px solid rgba(240, 237, 230, 0.08);
     margin-bottom: 1.5rem;
+  }
+  :global(html[data-theme="light"]) .rule {
+    border-color: rgba(0, 0, 0, 0.08);
   }
 
   /* ── Links ────────────────────────────────────── */
@@ -324,16 +205,28 @@ const description = "Creative Director & Filmmaker";
     overflow: hidden;
     min-width: 0;
   }
+  :global(html[data-theme="light"]) .link-card {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.03);
+  }
 
   .link-card:hover {
     border-color: rgba(240, 237, 230, 0.28);
     background: rgba(240, 237, 230, 0.06);
     transform: translateY(-1px);
   }
+  :global(html[data-theme="light"]) .link-card:hover {
+    border-color: rgba(0, 0, 0, 0.28);
+    background: rgba(0, 0, 0, 0.06);
+  }
 
   .link-card.featured {
     border-color: rgba(240, 237, 230, 0.18);
     background: rgba(240, 237, 230, 0.06);
+  }
+  :global(html[data-theme="light"]) .link-card.featured {
+    border-color: rgba(0, 0, 0, 0.18);
+    background: rgba(0, 0, 0, 0.06);
   }
 
   .link-pair {
@@ -417,73 +310,3 @@ const description = "Creative Director & Filmmaker";
     }
   }
 </style>
-```
-
-</details>
-
-### 3. Icons (Astro-Icon)
-This project natively implements `astro-icon` and is pre-configured with [Phosphor Icons](https://phosphoricons.com/) library (`@iconify-json/ph`).
-
-**Usage in YAML:**
-When composing `.yaml` profiles, simply designate the `ph:` icon ID where supported:
-```yaml
-    links:
-      - title: "My GitHub"
-        url: "https://github.com/myusername"
-        icon: "ph:github-logo"
-```
-
-**Usage in custom Astro pages:**
-If you're building a custom `.astro` page, import and deploy the `<Icon />` component seamlessly:
-```astro
----
-import { Icon } from 'astro-icon/components';
----
-<a href="https://twitter.com/myusername">
-  <Icon name="ph:x-logo" width={24} height={24} />
-</a>
-```
-**Adding other icon libraries:**
-Link fully supports any icon set from [Iconify](https://icones.js.org/). If you prefer a different style (like Material Design, FontAwesome, etc.):
-1. Install the library's JSON package:
-   ```bash
-   npm install @iconify-json/mdi
-   ```
-2. Register the prefix in `astro.config.mjs`:
-   ```javascript
-   import icon from 'astro-icon';
-
-   export default defineConfig({
-     integrations: [
-       icon({
-         include: {
-           ph: ['*'],
-           mdi: ['*'], // Add your new library prefix
-         },
-       }),
-     ],
-   });
-   ```
-3. You can now use `icon: "mdi:account"` anywhere in your YAML or Astro components!
-
-## Deployment (GitHub Pages)
-
-This project is strictly configured to automatically launch to GitHub Pages via a GitHub Actions CI workflow (`.github/deploy.yml`).
-
-1. **Update Configurations**
-   Double-check `astro.config.mjs` and make sure your `site` endpoint explicitly matches your GitHub deployment:
-   ```javascript
-   export default defineConfig({
-     site: 'https://a-coman.github.io', // Edit this to your GitHub Pages username
-     // base: '/link', // Uncomment this if deploying directly to a named subpath repository constraint
-     // ...
-   });
-   ```
-
-2. **Enable GitHub Actions Deployment**
-   - Push your code to your repository.
-   - Go to your repository settings on GitHub: `Settings` > `Pages`.
-   - Under **Build and deployment**, designate the **Source** strictly to `GitHub Actions`.
-
-3. **Deploy**
-    Your site will automatically compile, optimize, and deploy universally every time you push to the `main` branch.

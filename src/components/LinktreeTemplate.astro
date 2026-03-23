@@ -1,0 +1,176 @@
+---
+/**
+ * LinktreeTemplate — the main template that renders a profile page from YAML data.
+ * Orchestrates ProfileRow, LinkList, and text/divider blocks.
+ */
+import ProfileRow from './ProfileRow.astro';
+import LinkList from './LinkList.astro';
+
+interface ThemeConfig {
+  background?: string;
+  textColor?: string;
+  lightBackground?: string;
+  lightTextColor?: string;
+  accentColor?: string;
+  buttonStyle?: 'sharp' | 'rounded' | 'pill';
+  fontFamily?: string;
+}
+
+interface Block {
+  type: 'profiles' | 'links' | 'text' | 'divider';
+  [key: string]: unknown;
+}
+
+interface Props {
+  name: string;
+  description?: string;
+  theme?: ThemeConfig;
+  layout: Block[];
+}
+
+const {
+  name,
+  description,
+  theme,
+  layout,
+} = Astro.props;
+
+const {
+  background = '#0f0f0f',
+  textColor = '#eeeeee',
+  lightBackground = '#FAFAFA',
+  lightTextColor = '#111111',
+  accentColor = '#ffffff',
+  buttonStyle = 'sharp',
+  fontFamily,
+} = theme ?? {};
+
+const cssVars = [
+  `--bg: ${background}`,
+  `--text: ${textColor}`,
+  `--light-bg: ${lightBackground}`,
+  `--light-text: ${lightTextColor}`,
+  `--accent: ${accentColor}`,
+  `--font: ${fontFamily ?? "'Inter', system-ui, sans-serif"}`,
+].join('; ');
+---
+
+<div class="lt-root" style={cssVars}>
+  <div class="lt-inner container-box container-pad">
+    {layout.map((block) => {
+      if (block.type === 'profiles') {
+        const b = block as any;
+        return (
+          <section class="lt-block lt-block--profiles">
+            <ProfileRow
+              profiles={b.profiles}
+              columns={b.columns}
+              buttonStyle={buttonStyle}
+            />
+          </section>
+        );
+      }
+
+      if (block.type === 'links') {
+        const b = block as any;
+        return (
+          <section class="lt-block lt-block--links">
+            <LinkList
+              links={b.links}
+              buttonStyle={buttonStyle}
+            />
+          </section>
+        );
+      }
+
+      if (block.type === 'text') {
+        const b = block as any;
+        return (
+          <div class="lt-block lt-section-label">
+            <span>{b.content}</span>
+          </div>
+        );
+      }
+
+      if (block.type === 'divider') {
+        return <hr class="lt-divider" />;
+      }
+
+      return null;
+    })}
+  </div>
+</div>
+
+<style>
+  .lt-root {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100%;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  :global(html[data-theme="light"]) .lt-root {
+    background: var(--light-bg);
+    color: var(--light-text);
+  }
+
+  .lt-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .lt-block {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .lt-block--profiles {
+    margin-bottom: 1.2rem;
+  }
+
+  .lt-block--links {
+    /* nothing extra */
+  }
+
+  .lt-section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .lt-section-label span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    white-space: nowrap;
+  }
+
+  .lt-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.1;
+  }
+
+  .lt-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 0.75rem 0;
+  }
+
+  @media (max-width: 420px) {
+    .lt-inner {
+      padding-inline: 0.9rem;
+    }
+  }
+</style>

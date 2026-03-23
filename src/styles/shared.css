@@ -1,0 +1,100 @@
+/* src/styles/shared.css */
+
+/* ── Theme Variables ────────────────────────────────────────────── */
+:root {
+  --card-border: rgba(255, 255, 255, 0.14);
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-hover-border: rgba(255, 255, 255, 0.35);
+  --card-hover-bg: rgba(255, 255, 255, 0.06);
+  
+  --avatar-border: rgba(255, 255, 255, 0.13);
+  --avatar-bg: rgba(255, 255, 255, 0.06);
+  
+  --divider: rgba(255, 255, 255, 0.08);
+  --sub-text: 0.40;
+}
+
+html[data-theme="light"] {
+  --card-border: rgba(0, 0, 0, 0.14);
+  --card-bg: rgba(0, 0, 0, 0.04);
+  --card-hover-border: rgba(0, 0, 0, 0.35);
+  --card-hover-bg: rgba(0, 0, 0, 0.06);
+  
+  --avatar-border: rgba(0, 0, 0, 0.13);
+  --avatar-bg: rgba(0, 0, 0, 0.06);
+  
+  --divider: rgba(0, 0, 0, 0.08);
+  --sub-text: 0.40;
+}
+
+/* ── Container Utilities ────────────────────────────────────────── */
+.container-box {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.container-pad {
+  padding: clamp(1.5rem, 6vw, 3rem) clamp(1rem, 5vw, 1.5rem) clamp(3rem, 8vw, 5rem);
+}
+
+/* ── Interactive Cards ──────────────────────────────────────────── */
+.card-interactive {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-interactive:hover {
+  border-color: var(--card-hover-border);
+  background: var(--card-hover-bg);
+  transform: translateY(-1px);
+}
+
+.card-interactive:active {
+  transform: translateY(0);
+}
+
+/* Interactive Card Arrow */
+.card-arrow {
+  opacity: 0.3;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  flex-shrink: 0;
+}
+
+.card-interactive:hover .card-arrow {
+  opacity: 0.8;
+  transform: translateX(3px);
+}
+
+/* ── Text Utilities ─────────────────────────────────────────────── */
+.text-sub {
+  font-size: 0.75rem;
+  opacity: var(--sub-text);
+  letter-spacing: 0.01em;
+  word-break: break-word;
+}
+
+/* ── Avatar Utilities ───────────────────────────────────────────── */
+.avatar-shell-base {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--avatar-border);
+  background: var(--avatar-bg);
+  overflow: hidden;
+}
+
+.avatar-img-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}

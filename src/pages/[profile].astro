@@ -1,0 +1,35 @@
+---
+/**
+ * [profile].astro — Dynamic route.
+ * Generates one page per YAML file in src/content/profiles/.
+ * URL: /{profile-slug}  e.g. /alberto  or  /the-founders
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LinktreeTemplate from '../components/LinktreeTemplate.astro';
+
+export async function getStaticPaths() {
+  const profiles = await getCollection('profiles');
+  return profiles.map((entry) => ({
+    params: { profile: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { name, description, theme, layout } = entry.data;
+---
+
+<BaseLayout
+  title={name}
+  description={description}
+  background={theme?.background}
+  textColor={theme?.textColor}
+>
+  <LinktreeTemplate
+    name={name}
+    description={description}
+    theme={theme}
+    layout={layout}
+  />
+</BaseLayout>

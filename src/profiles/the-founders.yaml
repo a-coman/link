@@ -1,0 +1,76 @@
+name: "The Founders"
+description: "Studio Duo — Design & Engineering"
+theme:
+  background: "#0f0f0f"
+  textColor: "#eeeeee"
+  accentColor: "#ffffff"
+  buttonStyle: "rounded"
+
+layout:
+  - type: "profiles"
+    columns: 2
+    profiles:
+      - name: "Jane"
+        description: "Product Designer"
+        avatar: "/avatars/jane.jpg"
+        url: "https://jane.design"
+        socials:
+          - platform: "twitter"
+            url: "https://twitter.com/jane"
+          - platform: "dribbble"
+            url: "https://dribbble.com/jane"
+      - name: "Juan"
+        description: "Product Designer"
+        avatar: "/avatars/juan.jpg"
+        url: "https://juan.design"
+        socials:
+          - platform: "twitter"
+            url: "https://twitter.com/juan"
+          - platform: "dribbble"
+            url: "https://dribbble.com/juan"
+
+      - name: "Albert"
+        description: "Software Engineer"
+        avatar: "/avatars/albert.jpg"
+        url: "https://albert.dev"
+        socials:
+          - platform: "github"
+            url: "https://github.com/albert"
+          - platform: "linkedin"
+            url: "https://linkedin.com/in/albert"
+
+  - type: "links"
+    links:
+      - title: "Visit our Studio Website"
+        url: "https://studioduo.com"
+        icon: "ph:globe"
+      - title: "Book us for a project"
+        url: "https://cal.com/studioduo"
+        icon: "ph:calendar-blank"
+      - title: "Read our newsletter"
+        url: "https://studioduo.substack.com"
+        icon: "ph:envelope-simple"
+
+  - type: "text"
+    content: "Jane's Links"
+
+  - type: "links"
+    links:
+      - title: "Jane's Dribbble Portfolio"
+        url: "https://dribbble.com/jane"
+        icon: "ph:palette"
+      - title: "Jane's Design Course"
+        url: "https://course.jane.design"
+        icon: "ph:graduation-cap"
+
+  - type: "text"
+    content: "Albert's Links"
+
+  - type: "links"
+    links:
+      - title: "Albert's GitHub"
+        url: "https://github.com/albert"
+        icon: "ph:github-logo"
+      - title: "Albert's OSS Project"
+        url: "https://github.com/albert/my-project"
+        icon: "ph:code"

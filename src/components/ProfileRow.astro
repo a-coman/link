@@ -1,0 +1,92 @@
+---
+/**
+ * ProfileRow — renders a responsive grid of ProfileCards.
+ * `columns` drives the CSS grid column count.
+ */
+import ProfileCard from './ProfileCard.astro';
+
+interface Social {
+  platform: string;
+  url: string;
+  label?: string;
+  icon?: string;
+}
+
+interface ProfileItem {
+  name: string;
+  description?: string;
+  avatar?: string;
+  socials?: Social[];
+}
+
+interface Props {
+  profiles: ProfileItem[];
+  columns?: number;
+  buttonStyle?: 'sharp' | 'rounded' | 'pill';
+}
+
+const { profiles, columns = 2, buttonStyle = 'sharp' } = Astro.props;
+const colClass = `cols-${Math.min(Math.max(columns, 1), 4)}`;
+---
+
+<div class={`profile-row ${colClass}`}>
+  {profiles.map((p) => (
+    <div class="profile-card-wrapper">
+      <ProfileCard
+        name={p.name}
+        description={p.description}
+        avatar={p.avatar}
+        socials={p.socials}
+        buttonStyle={buttonStyle}
+      />
+    </div>
+  ))}
+</div>
+
+<style>
+  .profile-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(0.75rem, 4vw, 1.5rem);
+    width: 100%;
+    max-width: 28rem;
+    margin: 0 auto;
+  }
+
+  .profile-card-wrapper {
+    flex: 0 1 calc(50% - (clamp(0.75rem, 4vw, 1.5rem) / 2));
+    min-width: 140px;
+    max-width: 220px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* One column layout */
+  .profile-row.cols-1 .profile-card-wrapper {
+    flex: 1 1 100%;
+    max-width: 320px;
+  }
+
+  /* 3+ cols handling */
+  .profile-row.cols-3 .profile-card-wrapper,
+  .profile-row.cols-4 .profile-card-wrapper {
+    flex: 0 1 calc(33.333% - (clamp(0.75rem, 4vw, 1.5rem) * 2 / 3));
+    max-width: 180px;
+  }
+
+  @media (max-width: 480px) {
+    .profile-row.cols-3 .profile-card-wrapper,
+    .profile-row.cols-4 .profile-card-wrapper {
+      flex: 0 1 calc(50% - (clamp(0.75rem, 4vw, 1.5rem) / 2));
+      max-width: 220px;
+    }
+  }
+
+  @media (max-width: 299px) {
+    .profile-card-wrapper {
+      flex: 1 1 100% !important;
+      max-width: 100% !important;
+    }
+  }
+</style>

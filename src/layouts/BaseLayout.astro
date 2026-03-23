@@ -1,0 +1,132 @@
+---
+/**
+ * BaseLayout — global HTML shell.
+ * Handles meta tags, fonts, and css resets.
+ */
+import '../styles/shared.css';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  background?: string;
+  textColor?: string;
+  lightBackground?: string;
+  lightTextColor?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  background = '#0f0f0f',
+  textColor = '#eeeeee',
+  lightBackground = '#FAFAFA',
+  lightTextColor = '#111111',
+  ogImage,
+} = Astro.props;
+
+if (!title || !description) {
+  throw new Error(`BaseLayout: 'title' and 'description' are strictly required for all pages. Please provide them.`);
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="profile" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Google Fonts — Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Theme Initialization Script (Prevents FOUC) -->
+    <script is:inline>
+      (()=>{var e=localStorage.getItem("theme");e?"light"===e&&document.documentElement.setAttribute("data-theme","light"):window.matchMedia("(prefers-color-scheme: light)").matches&&document.documentElement.setAttribute("data-theme","light")})();
+    </script>
+
+    <!-- Global reset -->
+    <style define:vars={{ background, textColor, lightBackground, lightTextColor }}>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html, body {
+        height: 100%;
+        overflow-x: hidden;
+      }
+
+      :global(body) {
+        background: var(--background);
+        color: var(--textColor);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: 1.5;
+        min-width: 0;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      :global(html[data-theme='light'] body) {
+        background: var(--lightBackground);
+        color: var(--lightTextColor);
+      }
+
+      img, video {
+        max-width: 100%;
+        height: auto;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      /* Subtle entrance animation */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        min-width: 0;
+        animation: fadeUp 0.4s ease both;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+    <ThemeToggle />
+  </body>
+</html>

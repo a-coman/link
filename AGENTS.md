@@ -1,0 +1,3 @@
+- We use Astro, if you need documentation, use this link: https://docs.astro.build/llms.txt
+- This is a static site that should be able to be hosted on GitHub Pages
+- After your work verify the app is working and still builds using ´npm run build´

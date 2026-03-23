@@ -1,0 +1,37 @@
+name: "Alberto"
+description: "Designer & Creative Director — Get in touch"
+theme:
+  background: "#0f0f0f"
+  textColor: "#eeeeee"
+  accentColor: "#ffffff"
+  buttonStyle: "sharp"
+
+layout:
+  - type: "profiles"
+    columns: 1
+    profiles:
+      - name: "Alberto"
+        description: "Designer & Creative Director"
+        avatar: "/avatars/alberto.jpg"
+        socials:
+          - platform: "twitter"
+            url: "https://twitter.com/alberto"
+          - platform: "linkedin"
+            url: "https://linkedin.com/in/alberto"
+          - platform: "instagram"
+            url: "https://instagram.com/alberto"
+
+  - type: "links"
+    links:
+      - title: "My Portfolio"
+        url: "https://alberto.design"
+        icon: "ph:browser"
+      - title: "Book a Call"
+        url: "https://cal.com/alberto"
+        icon: "ph:video-camera"
+      - title: "Studio Website"
+        url: "https://studioduo.com"
+        icon: "ph:buildings"
+      - title: "Send me an Email"
+        url: "mailto:hello@alberto.design"
+        icon: "ph:envelope-simple"
