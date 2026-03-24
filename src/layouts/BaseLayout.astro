@@ -9,20 +9,12 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 interface Props {
   title: string;
   description: string;
-  background?: string;
-  textColor?: string;
-  lightBackground?: string;
-  lightTextColor?: string;
   ogImage?: string;
 }
 
 const {
   title,
   description,
-  background = '#0f0f0f',
-  textColor = '#eeeeee',
-  lightBackground = '#FAFAFA',
-  lightTextColor = '#111111',
   ogImage,
 } = Astro.props;
 
@@ -57,11 +49,11 @@ if (!title || !description) {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
 
-    <!-- Google Fonts — Inter -->
+    <!-- Fonts: IBM Plex Mono (display) + IBM Plex Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -71,7 +63,7 @@ if (!title || !description) {
     </script>
 
     <!-- Global reset -->
-    <style define:vars={{ background, textColor, lightBackground, lightTextColor }}>
+    <style>
       *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
@@ -83,20 +75,25 @@ if (!title || !description) {
         overflow-x: hidden;
       }
 
+      :root {
+        --font-display: 'IBM Plex Mono', ui-monospace, monospace;
+        --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+      }
+
       :global(body) {
-        background: var(--background);
-        color: var(--textColor);
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: #0a0a0a;
+        color: #ededeb;
+        font-family: var(--font-body);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        line-height: 1.5;
+        line-height: 1.55;
         min-width: 0;
-        transition: background 0.2s ease, color 0.2s ease;
+        transition: background 0.25s ease, color 0.25s ease;
       }
 
       :global(html[data-theme='light'] body) {
-        background: var(--lightBackground);
-        color: var(--lightTextColor);
+        background: #F7F6F3;
+        color: #0f0f0f;
       }
 
       img, video {
@@ -108,9 +105,21 @@ if (!title || !description) {
         color: inherit;
       }
 
-      /* Subtle entrance animation */
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(12px); }
+      /* Grain texture overlay */
+      :global(body::after) {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.025;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        background-size: 180px 180px;
+      }
+
+      /* Entrance animation */
+      @keyframes pageIn {
+        from { opacity: 0; transform: translateY(14px); }
         to   { opacity: 1; transform: translateY(0); }
       }
 
@@ -119,7 +128,7 @@ if (!title || !description) {
         justify-content: center;
         width: 100%;
         min-width: 0;
-        animation: fadeUp 0.4s ease both;
+        animation: pageIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
       }
     </style>
   </head>

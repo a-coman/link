@@ -22,7 +22,7 @@ interface Props {
 const { links, buttonStyle = 'sharp' } = Astro.props;
 ---
 
-<ul class={`link-list btn-${buttonStyle}`} role="list">
+<ul class={`link-list btn-${buttonStyle} stagger-list`} role="list">
   {links.map((link) => {
     const resolved = link.icon ? resolveIcon(link.icon) : null;
     const target = link.newTab !== false ? '_blank' : '_self';
@@ -32,7 +32,7 @@ const { links, buttonStyle = 'sharp' } = Astro.props;
         <a href={link.url} target={target} rel={rel} class="link-btn card-interactive">
           {resolved && (
             <span class="link-icon" aria-hidden="true">
-              <Icon name={resolved.icon} width={18} height={18} />
+              <Icon name={resolved.icon} width={16} height={16} />
             </span>
           )}
           <span class="link-copy">
@@ -42,7 +42,7 @@ const { links, buttonStyle = 'sharp' } = Astro.props;
             )}
           </span>
           <span class="link-arrow card-arrow" aria-hidden="true">
-            <Icon name="ph:arrow-right" width={13} height={13} />
+            <Icon name="ph:arrow-right" width={11} height={11} />
           </span>
         </a>
       </li>
@@ -57,7 +57,7 @@ const { links, buttonStyle = 'sharp' } = Astro.props;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.4rem;
     width: 100%;
     max-width: 100%;
   }
@@ -71,70 +71,66 @@ const { links, buttonStyle = 'sharp' } = Astro.props;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.8rem;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 0.85rem 1.1rem;
+    padding: 0.9rem 1.1rem;
     position: relative;
     overflow: hidden;
   }
 
-  .link-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.04);
-    opacity: 0;
-    transition: opacity 0.18s ease;
-  }
-
-  .link-btn:hover::before { opacity: 1; }
-
   /* Border-radius variants */
   .btn-sharp   .link-btn { border-radius: 0; }
-  .btn-rounded .link-btn { border-radius: 8px; }
+  .btn-rounded .link-btn { border-radius: 5px; }
   .btn-pill    .link-btn { border-radius: 9999px; }
 
   .link-icon {
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    opacity: 0.75;
+    opacity: 0.5;
+    transition: opacity 0.25s ease;
+  }
+
+  .link-btn:hover .link-icon {
+    opacity: 0.85;
   }
 
   .link-copy {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.15rem;
+    gap: 0.1rem;
     min-width: 0;
   }
 
   .link-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    font-family: var(--font-display, 'IBM Plex Mono', monospace);
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: 1.25;
   }
 
   .link-desc {
-    /* managed by global text-sub */
+    font-family: var(--font-body, 'IBM Plex Sans', system-ui, sans-serif);
+    /* opacity and size managed globally by .text-sub */
   }
 
   .link-arrow {
     display: inline-flex;
     align-items: center;
   }
-  /* transform and hover states managed by card-interactive + card-arrow */
 
   @media (max-width: 420px) {
     .link-btn {
-      padding: 0.8rem 0.95rem;
-      gap: 0.55rem;
+      padding: 0.85rem 1rem;
+      gap: 0.65rem;
     }
 
     .link-title {

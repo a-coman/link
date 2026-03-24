@@ -5,10 +5,6 @@ import { glob } from 'astro/loaders';
 // ── Reusable sub-schemas ─────────────────────────────────────────────────────
 
 const ThemeSchema = z.object({
-  background: z.string().default('#0f0f0f'),
-  textColor: z.string().default('#eeeeee'),
-  lightBackground: z.string().default('#FAFAFA'),
-  lightTextColor: z.string().default('#111111'),
   accentColor: z.string().default('#ffffff'),
   /** "sharp" | "rounded" | "pill" */
   buttonStyle: z.enum(['sharp', 'rounded', 'pill']).default('sharp'),

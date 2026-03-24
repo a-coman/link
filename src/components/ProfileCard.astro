@@ -2,6 +2,7 @@
 /**
  * ProfileCard — renders a single profile.
  * Avatar images fall back gracefully to a ph:user icon if the src is missing/broken.
+ * Borderless design — space-separated, typography-led.
  */
 import { existsSync } from "node:fs";
 import { Icon } from "astro-icon/components";
@@ -56,20 +57,20 @@ const hasLocalAvatar = avatarPath
         />
       )}
       <span class="avatar-icon" aria-hidden="true">
-        <Icon name="ph:user" width={34} height={34} />
+        <Icon name="ph:user" width={30} height={30} />
       </span>
     </span>
   </div>
 
   <div class="profile-info">
     <h2 class="profile-name">{name}</h2>
-    {description && <p class="profile-desc text-sub">{description}</p>}
+    {description && <p class="profile-desc">{description}</p>}
 
     {
       socials && socials.length > 0 && (
         <div class="socials">
           {socials.map((s) => (
-            <SocialIcon platform={s.icon ?? s.platform} url={s.url} size={32} />
+            <SocialIcon platform={s.icon ?? s.platform} url={s.url} size={28} />
           ))}
         </div>
       )
@@ -82,29 +83,20 @@ const hasLocalAvatar = avatarPath
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
-    padding: 1.5rem 0.75rem 1.25rem 0.75rem;
+    gap: 0.85rem;
+    padding: 1.5rem 1rem 1.25rem;
     width: 100%;
     min-width: 0;
     position: relative;
     text-align: center;
     color: inherit;
-    
-    /* Card style */
-    border: 1px solid var(--card-border);
-    background: var(--card-bg);
+    /* No border, no background — purely space-defined */
   }
 
-  /* Border-radius variants */
-  .profile-card.btn-sharp {
-    border-radius: 0;
-  }
-  .profile-card.btn-rounded {
-    border-radius: 8px;
-  }
-  .profile-card.btn-pill {
-    border-radius: 1.5rem;
-  }
+  /* Border-radius still applies if avatar-shell or socials use it */
+  .profile-card.btn-sharp {}
+  .profile-card.btn-rounded {}
+  .profile-card.btn-pill {}
 
   /* ── Avatar shell ──────────────────────────────── */
   .avatar-wrap {
@@ -112,13 +104,11 @@ const hasLocalAvatar = avatarPath
     justify-content: center;
     width: 100%;
     flex-shrink: 0;
-    position: relative;
-    z-index: 0; /* Behind hitbox */
   }
 
   .avatar-shell {
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -127,7 +117,6 @@ const hasLocalAvatar = avatarPath
     overflow: hidden;
   }
 
-  /* Image sits on top of the icon; hidden via onerror if broken */
   .avatar-img {
     width: 100%;
     height: 100%;
@@ -138,12 +127,11 @@ const hasLocalAvatar = avatarPath
     z-index: 1;
   }
 
-  /* Icon sits below the image */
   .avatar-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.45;
+    opacity: 0.3;
     color: inherit;
     width: 100%;
     height: 100%;
@@ -154,17 +142,16 @@ const hasLocalAvatar = avatarPath
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
     width: 100%;
-    min-width: 0; /* allow text to wrap in tight columns */
-    position: relative;
-    z-index: 0;
+    min-width: 0;
   }
 
   .profile-name {
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
+    font-family: var(--font-display, 'IBM Plex Mono', monospace);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     margin: 0;
     line-height: 1.2;
     word-break: break-word;
@@ -173,29 +160,30 @@ const hasLocalAvatar = avatarPath
   .profile-desc {
     margin: 0;
     line-height: 1.5;
-    font-size: 0.9rem;
+    font-size: 0.74rem;
+    opacity: 0.68;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    font-family: var(--font-body, 'IBM Plex Sans', system-ui, sans-serif);
   }
 
   .socials {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.5rem;
     align-items: center;
     justify-content: center;
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
     min-width: 0;
     position: relative;
-    z-index: 2; /* Sits above the hitbox logically and is clickable independently */
+    z-index: 2;
   }
 
   /* ── Responsive ────────────────────────────────── */
   @media (max-width: 360px) {
-    .profile-card {
-      padding: 1.1rem 0.5rem;
-    }
     .avatar-shell {
-      width: 68px;
-      height: 68px;
+      width: 60px;
+      height: 60px;
     }
   }
 </style>
