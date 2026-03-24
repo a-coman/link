@@ -7,6 +7,7 @@
 import { existsSync } from "node:fs";
 import { Icon } from "astro-icon/components";
 import SocialIcon from "./SocialIcon.astro";
+import { linkifyText } from "../utils/linkify";
 
 interface Social {
   platform: string;
@@ -39,23 +40,26 @@ const avatarPath = avatar?.startsWith("/")
 const hasLocalAvatar = avatarPath
   ? existsSync(new URL(`../../public${avatarPath}`, import.meta.url))
   : false;
+const descriptionTokens = description ? linkifyText(description) : [];
 ---
 
 <div class={`profile-card btn-${buttonStyle}`}>
   <div class="avatar-wrap">
     <span class="avatar-shell avatar-shell-base">
-      {hasLocalAvatar && avatarPath && (
-        <img
-          src={avatarPath}
-          alt=""
-          class="avatar-img avatar-img-base"
-          width="80"
-          height="80"
-          loading="lazy"
-          decoding="async"
-          onerror="this.style.display='none'"
-        />
-      )}
+      {
+        hasLocalAvatar && avatarPath && (
+          <img
+            src={avatarPath}
+            alt=""
+            class="avatar-img avatar-img-base"
+            width="80"
+            height="80"
+            loading="lazy"
+            decoding="async"
+            onerror="this.style.display='none'"
+          />
+        )
+      }
       <span class="avatar-icon" aria-hidden="true">
         <Icon name="ph:user" width={30} height={30} />
       </span>
@@ -64,7 +68,30 @@ const hasLocalAvatar = avatarPath
 
   <div class="profile-info">
     <h2 class="profile-name">{name}</h2>
-    {description && <p class="profile-desc">{description}</p>}
+    {
+      descriptionTokens.length > 0 && (
+        <p class="profile-desc">
+          {descriptionTokens.map((token) =>
+            token.type === "link" ? (
+              <a
+                href={token.href}
+                class="profile-desc-link"
+                target={token.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={
+                  token.href.startsWith("mailto:")
+                    ? undefined
+                    : "noopener noreferrer"
+                }
+              >
+                {token.value}
+              </a>
+            ) : (
+              token.value
+            ),
+          )}
+        </p>
+      )
+    }
 
     {
       socials && socials.length > 0 && (
@@ -94,9 +121,12 @@ const hasLocalAvatar = avatarPath
   }
 
   /* Border-radius still applies if avatar-shell or socials use it */
-  .profile-card.btn-sharp {}
-  .profile-card.btn-rounded {}
-  .profile-card.btn-pill {}
+  .profile-card.btn-sharp {
+  }
+  .profile-card.btn-rounded {
+  }
+  .profile-card.btn-pill {
+  }
 
   /* ── Avatar shell ──────────────────────────────── */
   .avatar-wrap {
@@ -148,7 +178,7 @@ const hasLocalAvatar = avatarPath
   }
 
   .profile-name {
-    font-family: var(--font-display, 'IBM Plex Mono', monospace);
+    font-family: var(--font-display, "IBM Plex Mono", monospace);
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -164,7 +194,39 @@ const hasLocalAvatar = avatarPath
     opacity: 0.68;
     font-weight: 400;
     letter-spacing: 0.01em;
-    font-family: var(--font-body, 'IBM Plex Sans', system-ui, sans-serif);
+    font-family: var(--font-body, "IBM Plex Sans", system-ui, sans-serif);
+  }
+
+  .profile-desc-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.12em;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
+    text-decoration-thickness: 1px;
+    text-decoration-color: currentColor;
+    border-radius: 0.16rem;
+    padding: 0 0.08rem;
+    margin: 0 -0.08rem;
+    transition:
+      color 0.2s var(--ease-out),
+      text-decoration-thickness 0.2s var(--ease-out),
+      background-color 0.2s var(--ease-out);
+  }
+
+  .profile-desc-link:hover,
+  .profile-desc-link:focus-visible {
+    color: inherit;
+    text-decoration-thickness: 1.75px;
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    outline: none;
+  }
+
+  .profile-desc-link:active {
+    background-color: color-mix(in srgb, currentColor 16%, transparent);
   }
 
   .socials {
