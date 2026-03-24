@@ -2,15 +2,39 @@
 
 /* ── Theme Variables ────────────────────────────────────────────── */
 :root {
-  --card-border: rgba(255, 255, 255, 0.09);
+  --card-border: color-mix(
+    in srgb,
+    var(--theme-accent-dark, #ffffff) 12%,
+    transparent
+  );
   --card-bg: rgba(255, 255, 255, 0.028);
-  --card-hover-border: rgba(255, 255, 255, 0.20);
-  --card-hover-bg: rgba(255, 255, 255, 0.05);
+  --card-hover-border: color-mix(
+    in srgb,
+    var(--theme-accent-dark, #ffffff) 24%,
+    transparent
+  );
+  --card-hover-bg: color-mix(
+    in srgb,
+    var(--theme-accent-dark, #ffffff) 5%,
+    transparent
+  );
 
-  --avatar-border: rgba(255, 255, 255, 0.10);
-  --avatar-bg: rgba(255, 255, 255, 0.04);
+  --avatar-border: color-mix(
+    in srgb,
+    var(--theme-text-dark, #ededeb) 10%,
+    transparent
+  );
+  --avatar-bg: color-mix(
+    in srgb,
+    var(--theme-accent-dark, #ffffff) 4%,
+    transparent
+  );
 
-  --divider: rgba(255, 255, 255, 0.07);
+  --divider: color-mix(
+    in srgb,
+    var(--theme-text-dark, #ededeb) 7%,
+    transparent
+  );
   /* 0.68 opacity on #0a0a0a → ~7.5:1 contrast (WCAG AA/AAA) */
   --sub-text: 0.68;
 
@@ -19,15 +43,39 @@
 }
 
 html[data-theme="light"] {
-  --card-border: rgba(0, 0, 0, 0.08);
+  --card-border: color-mix(
+    in srgb,
+    var(--theme-accent-light, #0f0f0f) 12%,
+    transparent
+  );
   --card-bg: rgba(0, 0, 0, 0.022);
-  --card-hover-border: rgba(0, 0, 0, 0.20);
-  --card-hover-bg: rgba(0, 0, 0, 0.045);
+  --card-hover-border: color-mix(
+    in srgb,
+    var(--theme-accent-light, #0f0f0f) 24%,
+    transparent
+  );
+  --card-hover-bg: color-mix(
+    in srgb,
+    var(--theme-accent-light, #0f0f0f) 5%,
+    transparent
+  );
 
-  --avatar-border: rgba(0, 0, 0, 0.09);
-  --avatar-bg: rgba(0, 0, 0, 0.035);
+  --avatar-border: color-mix(
+    in srgb,
+    var(--theme-text-light, #0f0f0f) 9%,
+    transparent
+  );
+  --avatar-bg: color-mix(
+    in srgb,
+    var(--theme-accent-light, #0f0f0f) 3.5%,
+    transparent
+  );
 
-  --divider: rgba(0, 0, 0, 0.07);
+  --divider: color-mix(
+    in srgb,
+    var(--theme-text-light, #0f0f0f) 7%,
+    transparent
+  );
   /* 0.74 opacity on #F7F6F3 → ~6:1 contrast (WCAG AA) */
   --sub-text: 0.74;
 }
@@ -41,7 +89,8 @@ html[data-theme="light"] {
 }
 
 .container-pad {
-  padding: clamp(2.5rem, 8vw, 4rem) clamp(1rem, 5vw, 1.5rem) clamp(3.5rem, 10vw, 6rem);
+  padding: clamp(2.5rem, 8vw, 4rem) clamp(1rem, 5vw, 1.5rem)
+    clamp(3.5rem, 10vw, 6rem);
 }
 
 /* ── Interactive Cards ──────────────────────────────────────────── */
@@ -113,20 +162,44 @@ html[data-theme="light"] {
 
 /* ── Staggered list animations ──────────────────────────────────── */
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .stagger-list > * {
   animation: fadeSlideUp 0.45s var(--ease-out) both;
 }
 
-.stagger-list > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger-list > *:nth-child(2) { animation-delay: 0.10s; }
-.stagger-list > *:nth-child(3) { animation-delay: 0.15s; }
-.stagger-list > *:nth-child(4) { animation-delay: 0.20s; }
-.stagger-list > *:nth-child(5) { animation-delay: 0.25s; }
-.stagger-list > *:nth-child(6) { animation-delay: 0.30s; }
-.stagger-list > *:nth-child(7) { animation-delay: 0.33s; }
-.stagger-list > *:nth-child(8) { animation-delay: 0.36s; }
-.stagger-list > *:nth-child(n+9) { animation-delay: 0.38s; }
+.stagger-list > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.stagger-list > *:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.stagger-list > *:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.stagger-list > *:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.stagger-list > *:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.stagger-list > *:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.stagger-list > *:nth-child(7) {
+  animation-delay: 0.33s;
+}
+.stagger-list > *:nth-child(8) {
+  animation-delay: 0.36s;
+}
+.stagger-list > *:nth-child(n + 9) {
+  animation-delay: 0.38s;
+}

@@ -43,16 +43,20 @@ For example, `src/profiles/alberto.yaml`:
 
 ```yaml
 name: "The Founders"
-description: "Studio Duo — Design & Engineering"
+description: "Studio Trio : Design & Engineering"
 theme:
-  background: "#0f0f0f"
-  textColor: "#eeeeee"
-  accentColor: "#ffffff"
-  buttonStyle: "rounded"
+  background-light: "#ffffff"
+  background-dark: "#2a3439"
+  text-light: "#2a3439"
+  text-dark: "#eeeeee"
+  accent-light: "#569cd6"
+  accent-dark: "#ffffff"
+  font-family: "Inter, sans-serif"
+  button-style: "pill" # "sharp" | "rounded" | "pill"
 
 layout:
   - type: "profiles"
-    columns: 2
+    columns: 3 # Number of columns per row for profiles (1, 2, 3 or 4 MAX)
     profiles:
       - name: "Jane"
         description: "Product Designer"
@@ -72,7 +76,6 @@ layout:
             url: "https://google.com/"
           - platform: "dribbble"
             url: "https://google.com/"
-
       - name: "Albert"
         description: "Software Engineer"
         avatar: "/avatars/albert.jpg"
@@ -82,7 +85,6 @@ layout:
             url: "https://google.com/"
           - platform: "linkedin"
             url: "https://google.com/"
-
   - type: "links"
     links:
       - title: "Visit our Studio Website"
@@ -138,6 +140,7 @@ For example, `src/pages/juan.astro`:
 
 ```js
 ---
+---
 /**
  * juan.astro : A FULLY CUSTOM Linktree page.
  * No YAML schema involved — pure Astro + CSS.
@@ -148,18 +151,15 @@ For example, `src/pages/juan.astro`:
  * You should always start with a BaseLayout component with a title and description.
  */
 
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { Icon } from 'astro-icon/components';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Icon } from "astro-icon/components";
 const title = "Juan Rodríguez";
 const description = "Creative Director & Filmmaker";
+const pageTitle = `Link / ${title}`;
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
->
+<BaseLayout title={pageTitle} description={description}>
   <div class="page">
-
     <!-- ── Header ─────────────────────────────────────────── -->
     <header class="hero">
       <div class="avatar-ring">
@@ -169,14 +169,36 @@ const description = "Creative Director & Filmmaker";
         <p class="hero-eyebrow">Creative Director</p>
         <h1 class="name">{title}</h1>
         <div class="socials">
-          <a href="https://google.com/" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="social-btn">
+          <a
+            href="https://google.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X (Twitter)"
+            class="social-btn"
+          >
             <Icon name="ph:x-logo" width={14} height={14} aria-hidden="true" />
           </a>
-          <a href="https://google.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-btn">
-            <Icon name="ph:instagram-logo" width={14} height={14} aria-hidden="true" />
+          <a
+            href="https://google.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            class="social-btn"
+          >
+            <Icon
+              name="ph:instagram-logo"
+              width={14}
+              height={14}
+              aria-hidden="true"
+            />
           </a>
           <a href="mailto:a@a.com" aria-label="Email" class="social-btn">
-            <Icon name="ph:envelope-simple" width={14} height={14} aria-hidden="true" />
+            <Icon
+              name="ph:envelope-simple"
+              width={14}
+              height={14}
+              aria-hidden="true"
+            />
           </a>
         </div>
       </div>
@@ -187,8 +209,12 @@ const description = "Creative Director & Filmmaker";
 
     <!-- ── Links ──────────────────────────────────────── -->
     <section class="links-section stagger-links" aria-label="Links">
-
-      <a href="https://google.com/" target="_blank" rel="noopener noreferrer" class="link-card featured">
+      <a
+        href="https://google.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-card featured"
+      >
         <div class="link-card-inner">
           <span class="link-label">Portfolio</span>
           <span class="link-card-title">View my Work</span>
@@ -200,28 +226,50 @@ const description = "Creative Director & Filmmaker";
       </a>
 
       <div class="link-pair">
-        <a href="https://google.com/" target="_blank" rel="noopener noreferrer" class="link-card half">
+        <a
+          href="https://google.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-card half"
+        >
           <span class="link-label">Calendar</span>
           <span class="link-card-title">Book a Call</span>
         </a>
-        <a href="https://google.com/" target="_blank" rel="noopener noreferrer" class="link-card half">
+        <a
+          href="https://google.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-card half"
+        >
           <span class="link-label">Vimeo</span>
           <span class="link-card-title">Short Films</span>
         </a>
       </div>
 
-      <a href="https://google.com/" target="_blank" rel="noopener noreferrer" class="link-card">
+      <a
+        href="https://google.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-card"
+      >
         <div class="link-card-inner">
           <span class="link-label">Newsletter</span>
           <span class="link-card-title">Notes on Craft</span>
-          <span class="link-card-sub">Monthly reflections on filmmaking &amp; design</span>
+          <span class="link-card-sub"
+            >Monthly reflections on filmmaking &amp; design</span
+          >
         </div>
         <span class="link-ext-icon" aria-hidden="true">
           <Icon name="ph:arrow-up-right" width={13} height={13} />
         </span>
       </a>
 
-      <a href="https://google.com/" target="_blank" rel="noopener noreferrer" class="link-card">
+      <a
+        href="https://google.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-card"
+      >
         <div class="link-card-inner">
           <span class="link-label">Shop</span>
           <span class="link-card-title">Presets &amp; Templates</span>
@@ -231,7 +279,6 @@ const description = "Creative Director & Filmmaker";
           <Icon name="ph:arrow-up-right" width={13} height={13} />
         </span>
       </a>
-
     </section>
   </div>
 </BaseLayout>
@@ -241,7 +288,8 @@ const description = "Creative Director & Filmmaker";
     max-width: 520px;
     width: 100%;
     margin: 0 auto;
-    padding: clamp(2.5rem, 7vw, 3.75rem) clamp(1rem, 5vw, 1.25rem) clamp(3.5rem, 9vw, 5.5rem);
+    padding: clamp(2.5rem, 7vw, 3.75rem) clamp(1rem, 5vw, 1.25rem)
+      clamp(3.5rem, 9vw, 5.5rem);
     min-width: 0;
   }
 
@@ -270,7 +318,7 @@ const description = "Creative Director & Filmmaker";
   }
 
   .avatar-initials {
-    font-family: var(--font-display, 'IBM Plex Mono', monospace);
+    font-family: var(--font-display, "IBM Plex Mono", monospace);
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -292,12 +340,12 @@ const description = "Creative Director & Filmmaker";
     text-transform: uppercase;
     opacity: 0.62;
     margin-bottom: 0.2rem;
-    font-family: 'SF Mono', ui-monospace, monospace;
+    font-family: "SF Mono", ui-monospace, monospace;
     line-height: 1;
   }
 
   .name {
-    font-family: var(--font-display, 'IBM Plex Mono', monospace);
+    font-family: var(--font-display, "IBM Plex Mono", monospace);
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -319,7 +367,10 @@ const description = "Creative Director & Filmmaker";
     border: 1px solid rgba(237, 237, 235, 0.09);
     color: inherit;
     opacity: 0.45;
-    transition: opacity 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    transition:
+      opacity 0.22s ease,
+      border-color 0.22s ease,
+      transform 0.22s ease;
     text-decoration: none;
   }
   :global(html[data-theme="light"]) .social-btn {
@@ -356,14 +407,30 @@ const description = "Creative Director & Filmmaker";
     animation: fadeSlideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  .stagger-links > *:nth-child(1) { animation-delay: 0.10s; }
-  .stagger-links > *:nth-child(2) { animation-delay: 0.18s; }
-  .stagger-links > *:nth-child(3) { animation-delay: 0.25s; }
-  .stagger-links > *:nth-child(4) { animation-delay: 0.31s; }
-  .stagger-links > *:nth-child(5) { animation-delay: 0.36s; }
+  .stagger-links > *:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .stagger-links > *:nth-child(2) {
+    animation-delay: 0.18s;
+  }
+  .stagger-links > *:nth-child(3) {
+    animation-delay: 0.25s;
+  }
+  .stagger-links > *:nth-child(4) {
+    animation-delay: 0.31s;
+  }
+  .stagger-links > *:nth-child(5) {
+    animation-delay: 0.36s;
+  }
 
   .link-card {
     display: flex;
@@ -376,7 +443,10 @@ const description = "Creative Director & Filmmaker";
     background: rgba(237, 237, 235, 0.022);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    transition:
+      border-color 0.25s ease,
+      background 0.25s ease,
+      transform 0.25s ease;
     overflow: hidden;
     min-width: 0;
   }
@@ -386,7 +456,7 @@ const description = "Creative Director & Filmmaker";
   }
 
   .link-card:hover {
-    border-color: rgba(237, 237, 235, 0.20);
+    border-color: rgba(237, 237, 235, 0.2);
     background: rgba(237, 237, 235, 0.05);
     transform: translateY(-1px);
   }
@@ -431,12 +501,12 @@ const description = "Creative Director & Filmmaker";
     text-transform: uppercase;
     opacity: 0.62;
     margin-bottom: 0.25rem;
-    font-family: 'SF Mono', ui-monospace, monospace;
+    font-family: "SF Mono", ui-monospace, monospace;
   }
 
   .link-card-title {
     display: block;
-    font-family: var(--font-display, 'IBM Plex Mono', monospace);
+    font-family: var(--font-display, "IBM Plex Mono", monospace);
     font-size: 0.92rem;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -450,13 +520,15 @@ const description = "Creative Director & Filmmaker";
     margin-top: 0.22rem;
     letter-spacing: 0.01em;
     line-height: 1.45;
-    font-family: var(--font-body, 'IBM Plex Sans', system-ui, sans-serif);
+    font-family: var(--font-body, "IBM Plex Sans", system-ui, sans-serif);
   }
 
   .link-ext-icon {
     flex-shrink: 0;
     opacity: 0.2;
-    transition: opacity 0.22s ease, transform 0.22s ease;
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease;
     margin-top: 0.15rem;
   }
   .link-card:hover .link-ext-icon {

@@ -3,23 +3,54 @@
  * BaseLayout — global HTML shell.
  * Handles meta tags, fonts, and css resets.
  */
-import '../styles/shared.css';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import "../styles/shared.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  theme?: {
+    "background-light"?: string;
+    "background-dark"?: string;
+    "text-light"?: string;
+    "text-dark"?: string;
+    "accent-light"?: string;
+    "accent-dark"?: string;
+    "font-family"?: string;
+  };
 }
 
-const {
-  title,
-  description,
-  ogImage,
-} = Astro.props;
+const { title, description, ogImage, theme } = Astro.props;
+
+const themeVars = theme
+  ? [
+      theme["background-light"]
+        ? `--theme-background-light: ${theme["background-light"]}`
+        : null,
+      theme["background-dark"]
+        ? `--theme-background-dark: ${theme["background-dark"]}`
+        : null,
+      theme["text-light"] ? `--theme-text-light: ${theme["text-light"]}` : null,
+      theme["text-dark"] ? `--theme-text-dark: ${theme["text-dark"]}` : null,
+      theme["accent-light"]
+        ? `--theme-accent-light: ${theme["accent-light"]}`
+        : null,
+      theme["accent-dark"]
+        ? `--theme-accent-dark: ${theme["accent-dark"]}`
+        : null,
+      theme["font-family"]
+        ? `--font-display: ${theme["font-family"]}; --font-body: ${theme["font-family"]}`
+        : null,
+    ]
+      .filter(Boolean)
+      .join("; ")
+  : undefined;
 
 if (!title || !description) {
-  throw new Error(`BaseLayout: 'title' and 'description' are strictly required for all pages. Please provide them.`);
+  throw new Error(
+    `BaseLayout: 'title' and 'description' are strictly required for all pages. Please provide them.`,
+  );
 }
 ---
 
@@ -59,44 +90,58 @@ if (!title || !description) {
 
     <!-- Theme Initialization Script (Prevents FOUC) -->
     <script is:inline>
-      (()=>{var e=localStorage.getItem("theme");e?"light"===e&&document.documentElement.setAttribute("data-theme","light"):window.matchMedia("(prefers-color-scheme: light)").matches&&document.documentElement.setAttribute("data-theme","light")})();
+      (() => {
+        var e = localStorage.getItem("theme");
+        e
+          ? "light" === e &&
+            document.documentElement.setAttribute("data-theme", "light")
+          : window.matchMedia("(prefers-color-scheme: light)").matches &&
+            document.documentElement.setAttribute("data-theme", "light");
+      })();
     </script>
 
     <!-- Global reset -->
     <style>
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
 
-      html, body {
+      html,
+      body {
         height: 100%;
         overflow-x: hidden;
       }
 
       :root {
-        --font-display: 'IBM Plex Mono', ui-monospace, monospace;
-        --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+        --font-display: "IBM Plex Mono", ui-monospace, monospace;
+        --font-body: "IBM Plex Sans", system-ui, sans-serif;
       }
 
       :global(body) {
-        background: #0a0a0a;
-        color: #ededeb;
+        background: var(--theme-background-dark, #0a0a0a);
+        color: var(--theme-text-dark, #ededeb);
         font-family: var(--font-body);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         line-height: 1.55;
         min-width: 0;
-        transition: background 0.25s ease, color 0.25s ease;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
       }
 
-      :global(html[data-theme='light'] body) {
-        background: #F7F6F3;
-        color: #0f0f0f;
+      :global(html[data-theme="light"] body) {
+        background: #f7f6f3;
+        background: var(--theme-background-light, #f7f6f3);
+        color: var(--theme-text-light, #0f0f0f);
       }
 
-      img, video {
+      img,
+      video {
         max-width: 100%;
         height: auto;
       }
@@ -107,7 +152,7 @@ if (!title || !description) {
 
       /* Grain texture overlay */
       :global(body::after) {
-        content: '';
+        content: "";
         position: fixed;
         inset: 0;
         pointer-events: none;
@@ -119,8 +164,14 @@ if (!title || !description) {
 
       /* Entrance animation */
       @keyframes pageIn {
-        from { opacity: 0; transform: translateY(14px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       main {
@@ -132,7 +183,7 @@ if (!title || !description) {
       }
     </style>
   </head>
-  <body>
+  <body style={themeVars || undefined}>
     <main>
       <slot />
     </main>

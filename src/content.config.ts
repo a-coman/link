@@ -1,14 +1,19 @@
-import { defineCollection } from 'astro:content';
-import { z } from 'astro/zod';
-import { glob } from 'astro/loaders';
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { glob } from "astro/loaders";
 
 // ── Reusable sub-schemas ─────────────────────────────────────────────────────
 
 const ThemeSchema = z.object({
-  accentColor: z.string().default('#ffffff'),
+  "background-light": z.string().optional(),
+  "background-dark": z.string().optional(),
+  "text-light": z.string().optional(),
+  "text-dark": z.string().optional(),
+  "accent-light": z.string().optional(),
+  "accent-dark": z.string().optional(),
+  "font-family": z.string().optional(),
   /** "sharp" | "rounded" | "pill" */
-  buttonStyle: z.enum(['sharp', 'rounded', 'pill']).default('sharp'),
-  fontFamily: z.string().optional(),
+  "button-style": z.enum(["sharp", "rounded", "pill"]).default("sharp"),
 });
 
 const SocialSchema = z.object({
@@ -40,26 +45,26 @@ const LinkItemSchema = z.object({
 // ── Block discriminated union ─────────────────────────────────────────────────
 
 const ProfilesBlockSchema = z.object({
-  type: z.literal('profiles'),
+  type: z.literal("profiles"),
   columns: z.number().int().min(1).max(4).default(2),
   profiles: z.array(ProfileItemSchema).min(1),
 });
 
 const LinksBlockSchema = z.object({
-  type: z.literal('links'),
+  type: z.literal("links"),
   links: z.array(LinkItemSchema).min(1),
 });
 
 const TextBlockSchema = z.object({
-  type: z.literal('text'),
+  type: z.literal("text"),
   content: z.string(),
 });
 
 const DividerBlockSchema = z.object({
-  type: z.literal('divider'),
+  type: z.literal("divider"),
 });
 
-const BlockSchema = z.discriminatedUnion('type', [
+const BlockSchema = z.discriminatedUnion("type", [
   ProfilesBlockSchema,
   LinksBlockSchema,
   TextBlockSchema,
@@ -69,7 +74,7 @@ const BlockSchema = z.discriminatedUnion('type', [
 // ── Collection ───────────────────────────────────────────────────────────────
 
 const profiles = defineCollection({
-  loader: glob({ pattern: '**/*.yaml', base: './src/profiles' }),
+  loader: glob({ pattern: "**/*.yaml", base: "./src/profiles" }),
   schema: z.object({
     name: z.string(),
     description: z.string(),

@@ -1,10 +1,5 @@
 name: "Alberto"
 description: "Designer & Creative Director — Get in touch"
-theme:
-  background: "#0f0f0f"
-  textColor: "#eeeeee"
-  accentColor: "#ffffff"
-  buttonStyle: "sharp"
 
 layout:
   - type: "profiles"

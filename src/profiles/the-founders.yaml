@@ -1,14 +1,18 @@
 name: "The Founders"
-description: "Studio Duo — Design & Engineering"
+description: "Studio Trio : Design & Engineering"
 theme:
-  background: "#0f0f0f"
-  textColor: "#eeeeee"
-  accentColor: "#ffffff"
-  buttonStyle: "rounded"
+  background-light: "#ffffff"
+  background-dark: "#2a3439"
+  text-light: "#2a3439"
+  text-dark: "#eeeeee"
+  accent-light: "#569cd6"
+  accent-dark: "#ffffff"
+  font-family: "Inter, sans-serif"
+  button-style: "pill" # "sharp" | "rounded" | "pill"
 
 layout:
   - type: "profiles"
-    columns: 2
+    columns: 3 # Number of columns per row for profiles (1, 2, 3 or 4 MAX)
     profiles:
       - name: "Jane"
         description: "Product Designer"
@@ -28,7 +32,6 @@ layout:
             url: "https://google.com/"
           - platform: "dribbble"
             url: "https://google.com/"
-
       - name: "Albert"
         description: "Software Engineer"
         avatar: "/avatars/albert.jpg"
@@ -38,7 +41,6 @@ layout:
             url: "https://google.com/"
           - platform: "linkedin"
             url: "https://google.com/"
-
   - type: "links"
     links:
       - title: "Visit our Studio Website"

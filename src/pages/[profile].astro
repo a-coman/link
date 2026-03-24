@@ -4,12 +4,12 @@
  * Generates one page per YAML file in src/content/profiles/.
  * URL: /{profile-slug}  e.g. /alberto  or  /the-founders
  */
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import LinkTemplate from '../components/LinkTemplate.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LinkTemplate from "../components/LinkTemplate.astro";
 
 export async function getStaticPaths() {
-  const profiles = await getCollection('profiles');
+  const profiles = await getCollection("profiles");
   return profiles.map((entry) => ({
     params: { profile: entry.id },
     props: { entry },
@@ -18,16 +18,14 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { name, description, theme, layout } = entry.data;
+const buttonStyle = theme?.["button-style"] ?? "sharp";
 ---
 
-<BaseLayout
-  title={name}
-  description={description}
->
+<BaseLayout title={`Link / ${name}`} description={description} theme={theme}>
   <LinkTemplate
     name={name}
     description={description}
-    theme={theme}
+    buttonStyle={buttonStyle}
     layout={layout}
   />
 </BaseLayout>

@@ -3,7 +3,7 @@
  * ProfileRow — renders a responsive grid of ProfileCards.
  * `columns` drives the CSS grid column count.
  */
-import ProfileCard from './ProfileCard.astro';
+import ProfileCard from "./ProfileCard.astro";
 
 interface Social {
   platform: string;
@@ -22,71 +22,113 @@ interface ProfileItem {
 interface Props {
   profiles: ProfileItem[];
   columns?: number;
-  buttonStyle?: 'sharp' | 'rounded' | 'pill';
+  buttonStyle?: "sharp" | "rounded" | "pill";
 }
 
-const { profiles, columns = 2, buttonStyle = 'sharp' } = Astro.props;
-const colClass = `cols-${Math.min(Math.max(columns, 1), 4)}`;
+const { profiles, columns = 2, buttonStyle = "sharp" } = Astro.props;
+const normalizedColumns = Math.min(Math.max(columns, 1), 4);
+const colClass = `cols-${normalizedColumns}`;
+
+const totalProfiles = profiles.length;
+const lastRowRemainder = totalProfiles % normalizedColumns;
+const hasIncompleteLastRow = lastRowRemainder > 0;
+const firstLastRowIndex = totalProfiles - lastRowRemainder;
+const lastRowStartTrack = hasIncompleteLastRow
+  ? normalizedColumns - lastRowRemainder + 1
+  : 1;
 ---
 
 <div class={`profile-row ${colClass}`}>
-  {profiles.map((p) => (
-    <div class="profile-card-wrapper">
-      <ProfileCard
-        name={p.name}
-        description={p.description}
-        avatar={p.avatar}
-        socials={p.socials}
-        buttonStyle={buttonStyle}
-      />
-    </div>
-  ))}
+  {
+    profiles.map((p, idx) => (
+      <div
+        class={`profile-card-wrapper ${
+          hasIncompleteLastRow && idx === firstLastRowIndex
+            ? "last-row-start"
+            : ""
+        }`}
+        style={
+          hasIncompleteLastRow && idx === firstLastRowIndex
+            ? `--last-row-start:${lastRowStartTrack};`
+            : undefined
+        }
+      >
+        <ProfileCard
+          name={p.name}
+          description={p.description}
+          avatar={p.avatar}
+          socials={p.socials}
+          buttonStyle={buttonStyle}
+        />
+      </div>
+    ))
+  }
 </div>
 
 <style>
   .profile-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(0.75rem, 4vw, 1.5rem);
+    --profile-row-gap: clamp(0.55rem, 3vw, 1.1rem);
+    display: grid;
+    gap: var(--profile-row-gap);
     width: 100%;
-    max-width: 28rem;
+    max-width: 100%;
     margin: 0 auto;
   }
 
   .profile-card-wrapper {
-    flex: 0 1 calc(50% - (clamp(0.75rem, 4vw, 1.5rem) / 2));
-    min-width: 140px;
-    max-width: 220px;
     display: flex;
     justify-content: center;
+    min-width: 0;
+    width: 100%;
+    grid-column: span 2;
   }
 
-  /* One column layout */
-  .profile-row.cols-1 .profile-card-wrapper {
-    flex: 1 1 100%;
-    max-width: 320px;
+  .profile-row.cols-1 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* 3+ cols handling */
+  .profile-row.cols-2 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .profile-row.cols-3 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .profile-row.cols-4 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .profile-row.cols-1 .profile-card-wrapper,
+  .profile-row.cols-2 .profile-card-wrapper,
   .profile-row.cols-3 .profile-card-wrapper,
   .profile-row.cols-4 .profile-card-wrapper {
-    flex: 0 1 calc(33.333% - (clamp(0.75rem, 4vw, 1.5rem) * 2 / 3));
-    max-width: 180px;
+    min-width: 140px;
+  }
+
+  .profile-card-wrapper.last-row-start {
+    grid-column: var(--last-row-start) / span 2;
   }
 
   @media (max-width: 480px) {
-    .profile-row.cols-3 .profile-card-wrapper,
-    .profile-row.cols-4 .profile-card-wrapper {
-      flex: 0 1 calc(50% - (clamp(0.75rem, 4vw, 1.5rem) / 2));
-      max-width: 220px;
+    .profile-row.cols-2,
+    .profile-row.cols-3,
+    .profile-row.cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .profile-card-wrapper.last-row-start {
+      grid-column: auto / span 2;
     }
   }
 
   @media (max-width: 299px) {
+    .profile-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
     .profile-card-wrapper {
-      flex: 1 1 100% !important;
-      max-width: 100% !important;
+      grid-column: span 2;
     }
   }
 </style>

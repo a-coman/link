@@ -6,12 +6,6 @@
 import ProfileRow from "./ProfileRow.astro";
 import LinkList from "./LinkList.astro";
 
-interface ThemeConfig {
-  accentColor?: string;
-  buttonStyle?: "sharp" | "rounded" | "pill";
-  fontFamily?: string;
-}
-
 interface Block {
   type: "profiles" | "links" | "text" | "divider";
   [key: string]: unknown;
@@ -20,22 +14,14 @@ interface Block {
 interface Props {
   name: string;
   description?: string;
-  theme?: ThemeConfig;
+  buttonStyle?: "sharp" | "rounded" | "pill";
   layout: Block[];
 }
 
-const { name, description, theme, layout } = Astro.props;
-
-const {
-  accentColor = "#ffffff",
-  buttonStyle = "sharp",
-  fontFamily,
-} = theme ?? {};
-
-const cssVars = fontFamily ? `--font: ${fontFamily}` : undefined;
+const { name, description, buttonStyle = "sharp", layout } = Astro.props;
 ---
 
-<div class="lt-root" style={cssVars || undefined}>
+<div class="lt-root">
   <div class="lt-inner container-box container-pad">
     {
       layout.map((block) => {
@@ -123,7 +109,7 @@ const cssVars = fontFamily ? `--font: ${fontFamily}` : undefined;
     text-transform: uppercase;
     opacity: 0.62;
     white-space: nowrap;
-    font-family: 'SF Mono', ui-monospace, monospace;
+    font-family: "SF Mono", ui-monospace, monospace;
   }
 
   .lt-section-label::after {
