@@ -1,0 +1,22 @@
+name: "SISTEDES-26"
+description: "SISTEDES 2026 Conference Profile"
+theme:
+  button-style: "rounded"
+
+layout:
+  - type: "profiles"
+    columns: 2
+    profiles:
+      - name: "Andrei"
+        description: "Software Engineer Researcher at University of Málaga"
+        avatar: "/avatars/andrei.png"
+        socials:
+          - platform: "linkedin"
+            url: "https://www.linkedin.com/in/a-coman/"
+          - platform: "github"
+            url: "https://github.com/a-coman"
+  - type: "links"
+    links:
+      - title: "Visit Results Page"
+        url: "https://a-coman.github.io/llm-viewer/gpt_4o/"
+        icon: "ph:globe"
