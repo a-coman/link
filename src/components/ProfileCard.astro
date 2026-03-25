@@ -4,7 +4,6 @@
  * Avatar images fall back gracefully to a ph:user icon if the src is missing/broken.
  * Borderless design — space-separated, typography-led.
  */
-import { existsSync } from "node:fs";
 import { Icon } from "astro-icon/components";
 import SocialIcon from "./SocialIcon.astro";
 import { linkifyText } from "../utils/linkify";
@@ -47,13 +46,7 @@ const avatarPath = isExternalAvatar
   : normalizedLocalAvatar
     ? withBase(normalizedLocalAvatar)
     : undefined;
-const hasLocalAvatar = avatarPath
-  ? !isExternalAvatar &&
-    existsSync(new URL(`../../public${normalizedLocalAvatar}`, import.meta.url))
-  : false;
-const shouldRenderAvatar = Boolean(
-  avatarPath && (isExternalAvatar || hasLocalAvatar),
-);
+const shouldRenderAvatar = Boolean(avatarPath);
 const descriptionTokens = description ? linkifyText(description) : [];
 ---
 
