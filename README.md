@@ -625,7 +625,7 @@ This project is strictly configured to automatically launch to GitHub Pages via 
    ```javascript
    export default defineConfig({
      site: 'https://a-coman.github.io', // Edit this to your GitHub Pages username
-     // base: '/link', // Uncomment this if deploying directly to a named subpath repository constraint
+     base: '/link', // Edit this to your repository name
      // ...
    });
    ```
