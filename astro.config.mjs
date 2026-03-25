@@ -6,7 +6,7 @@ import icon from 'astro-icon';
 export default defineConfig({
   devToolbar: { enabled: false },
   site: 'https://a-coman.github.io', // TODO: change this to your own username
-  // base: '/link', // Uncomment and set if deploying to a subpath on GitHub Pages
+  base: "/link", // TODO: change this to your repository name
   integrations: [
     icon({
       include: {
