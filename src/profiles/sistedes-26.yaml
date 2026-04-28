@@ -5,18 +5,25 @@ theme:
 
 layout:
   - type: "profiles"
-    columns: 2
+    columns: 1
     profiles:
-      - name: "Andrei"
-        description: "Software Engineer Researcher at University of Málaga"
+      - name: "Andrei Coman"
+        description: "Software Engineer Researcher at University of Málaga | ITIS Software"
         avatar: "/avatars/andrei.png"
         socials:
+          - platform: "website"
+            url: "https://a-coman.dev"
+          - platform: "email"
+            url: "mailto:me@a-coman.dev"
           - platform: "linkedin"
             url: "https://www.linkedin.com/in/a-coman/"
           - platform: "github"
             url: "https://github.com/a-coman"
   - type: "links"
     links:
-      - title: "Visit Results Page"
+      - title: "Read the full paper"
+        url: "https://arxiv.org/pdf/2604.10350"
+        icon: "ph:file-pdf"
+      - title: "Visit the results page"
         url: "https://a-coman.github.io/llm-viewer/gpt_4o/"
-        icon: "ph:globe"
+        icon: "ph:link"
