@@ -35,7 +35,7 @@ const ProfileItemSchema = z.object({
 
 const LinkItemSchema = z.object({
   title: z.string(),
-  url: z.string().url(),
+  url: z.union([z.string().url(), z.string().regex(/^\/.+/)]),
   description: z.string().optional(),
   /** Any Iconify icon ID, e.g. "ph:globe" or "ph:calendar-blank" */
   icon: z.string().optional(),
