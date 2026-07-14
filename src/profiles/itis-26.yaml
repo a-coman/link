@@ -1,0 +1,32 @@
+name: "ITIS-26"
+description: "ITIS 2026"
+theme:
+  button-style: "rounded"
+
+layout:
+  - type: "profiles"
+    columns: 1
+    profiles:
+      - name: "Andrei Coman"
+        description: "Software Engineer Researcher at University of Málaga | ITIS Software"
+        avatar: "/avatars/andrei.png"
+        socials:
+          - platform: "website"
+            url: "https://a-coman.dev"
+          - platform: "email"
+            url: "mailto:me@a-coman.dev"
+          - platform: "linkedin"
+            url: "https://www.linkedin.com/in/a-coman/"
+          - platform: "github"
+            url: "https://github.com/a-coman"
+  - type: "links"
+    links:
+      - title: "View the poster"
+        url: "/itis-26/Poster.pdf"
+        icon: "ph:presentation"
+      - title: "Read the paper"
+        url: "https://arxiv.org/pdf/2604.10350"
+        icon: "ph:file-pdf"
+      - title: "Explore the results"
+        url: "https://a-coman.github.io/llm-viewer/gpt_4o/"
+        icon: "ph:chart-bar"
