@@ -21,6 +21,9 @@ layout:
             url: "https://github.com/a-coman"
   - type: "links"
     links:
+      - title: "View the presentation"
+        url: "/go/itis-26"
+        icon: "ph:projector-screen"
       - title: "View the poster"
         url: "/itis-26/Poster.pdf"
         icon: "ph:presentation"
